@@ -137,8 +137,8 @@ const NewOrders = () => {
                         <View style={styles.dotStyle} />
                         <View style={styles.dotStyle} />
                         <Image
-                            source={require('../../assets/images/direaction.png')}
-                            style={{ width: 16.0, height: 16.0, }}
+                             source={require('../../assets/images/pointer.png')}
+                             style={{ width: 24.0, height: 24.0, }}
                             resizeMode="cover"
                         />
                     </View>

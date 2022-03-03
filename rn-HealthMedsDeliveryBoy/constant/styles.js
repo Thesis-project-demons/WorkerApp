@@ -122,7 +122,7 @@ export const Fonts = {
     },
 
     primaryColor16Medium: {
-        color: '#10857F',
+        color: '#FE9F6F',
         fontSize: 16.0,
         fontFamily: 'Roboto_Medium'
     },
@@ -151,7 +151,7 @@ export const Colors = {
     blackColor: '#000000',
     whiteColor: '#FFFFFF',
     grayColor: '#9E9E9E',
-    primaryColor: '#10857F',
+    primaryColor: '#FE9F6F',
     lightGrayColor: '#E2E2E2',
 }
 

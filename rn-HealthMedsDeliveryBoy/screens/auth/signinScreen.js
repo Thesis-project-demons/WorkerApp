@@ -106,8 +106,8 @@ const Signin = ({ navigation }) => {
                 textAlign: 'center',
                 marginTop: Sizes.fixPadding,
             }}>
-                We are happy to see 
-            </Text>
+                We are happy to see  <Text  onPress={()=>{navigation.navigate('Signup')}}style={{...Fonts.grayColor17Medium,textAlign: 'center', marginTop: Sizes.fixPadding,color:'black'}}>SignUp</Text>
+                </Text>
         )
     }
 
@@ -156,7 +156,7 @@ const Signin = ({ navigation }) => {
     function deliveryBoyImage() {
         return (
             <Image
-                source={require('../../assets/images/delivery.png')}
+                source={require('../../assets/images/logo.png')}
                 style={styles.deliveryBoyImageStyle}
                 resizeMode="cover"
             />

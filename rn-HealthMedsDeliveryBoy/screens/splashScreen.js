@@ -17,7 +17,7 @@ class SplashScreen extends Component {
                 <StatusBar backgroundColor={Colors.primaryColor} />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image
-                        source={require('../assets/images/delivery.png')}
+                        source={require('../assets/images/logo.png')}
                         style={{
                             height: 150.0,
                             width: 220.0,

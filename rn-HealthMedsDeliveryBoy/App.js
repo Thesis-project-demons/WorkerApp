@@ -9,12 +9,13 @@ import editProfileScreen from "./screens/editProfile/editProfileScreen";
 import notificationsScreen from "./screens/notifications/notificationsScreen";
 import showMapScreen from "./screens/showMap/showMapScreen";
 import splashScreen from "./screens/splashScreen";
-// import signup from './screens/auth/signup'Signup: signup,
+import signup from './screens/auth/signup'
 const switchNavigator = createSwitchNavigator({
   Loading: LoadingScreen,
   mainFlow: createStackNavigator({
     Splash: splashScreen,
     Signin: signinScreen,
+    Signup: signup,
     Verification: verificationScreen,
     // BottomTabBar: bottomTabBarScreen,
     BottomTabBar: {
