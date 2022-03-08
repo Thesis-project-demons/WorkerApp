@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect} from "react";
 import {
     Text,
     View,
@@ -12,24 +12,24 @@ import {
     ScrollView,
     Picker,
     Keyboard
-    
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Sizes, Fonts } from "../../constant/styles";
-// import PhoneInput from "react-native-phone-number-input";
 import { NavigationEvents } from 'react-navigation';
 import { Input, Icon } from 'react-native-elements';
-// import axios from 'axios';
+import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheet } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 const { height } = Dimensions.get('screen');
 // import Close from "@material-ui/icons/Close";
 import * as ImagePicker from 'expo-image-picker';
-class SigninScreen extends Component {
+import * as Location from 'expo-location';
 
+class SigninScreen extends Component {
+   
     componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this)); 
     }
 
     componentWillUnmount() {
@@ -54,10 +54,10 @@ class SigninScreen extends Component {
 }
 
 const Signin = ({ navigation }) => {
-
+    
     const [email,setemail] = useState('');
     const [pass,setpass] = useState('');
-    const [img,setimg] = useState('');
+    const [img,setimg] = useState({});
     const [ID,setID] = useState('');
     const [Ip,setIp] = useState('');
     const [alert,setalert] = useState('');
@@ -67,19 +67,43 @@ const Signin = ({ navigation }) => {
     const [change2,setchange2] = useState(false);
     const [change3,setchange3] = useState(false);
     const [isBottomSheet,setIsBottomSheet] = useState(false);
+    const [view, setview] = useState(false);
 
     const [nameplace,setnameplace] = useState('');
     const [address,setaddress] = useState('');
     const [location,setlocation] = useState('');
     const [phone,setphone] = useState('');  
     const [cordinate,setcordinate] = useState('');  
-    const [pepleCount,setpepleCount] = useState(0);  
-    const [stars,setstars] = useState(0);  
+    // const [pepleCount,setpepleCount] = useState(0);  
+    // const [stars,setstars] = useState(0);  
     const [value,setvalue] = useState('Service Technicians');
-    const [pickedImagePath, setPickedImagePath] = useState('../../assets/images/cam.png');
-    console.log(pickedImagePath)
+    const [pickedImagePath, setPickedImagePath] = useState('');
+    const [pickedImage, setPickedImage] = useState('../../assets/images/cam.png');
+    const [errorMsg, setErrorMsg] = useState('');
+    console.log(cordinate,"ff",errorMsg)
     console.log(value)
     console.log(phone)
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            setchange(true)
+            setchange2(false)
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setcordinate(location);
+        })();
+      }, []);
+      let text = 'Waiting..';
+      if (errorMsg) {
+        setalert(errorMsg);
+      } else if (cordinate) {
+        text = JSON.stringify(cordinate);
+        // setlatitude(text.coords.latitude)
+      }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
             <StatusBar backgroundColor={Colors.primaryColor} />
@@ -101,41 +125,75 @@ const Signin = ({ navigation }) => {
             </View>
         </SafeAreaView>
     )
+    function handle(pic){
+           fetch("https://api.cloudinary.com/v1_1/dod9yhmlt/image/upload",{
+            body: JSON.stringify(pic),
+            headers: {
+              'content-type': 'application/json'
+            },
+            method: 'POST',
+          }).then(async r => {
+            let data = await r.json()
+            //    console.log(data,"img") 
+             setimg(data.url);
+          }).catch(err => console.log(err))
+      }
     async function showImagePicker(){
         // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
         if (permissionResult.granted === false) {
-          alert("You've refused to allow this appp to access your photos!");
+            settogglealert("You've refused to allow this appp to access your photos!");
           return;
         }
-    
-        const result = await ImagePicker.launchImageLibraryAsync();
-    
+        const result = await ImagePicker.launchImageLibraryAsync({
+            base64:true,
+            allowsEditing: true,
+            aspect: [4, 3]
+        });
         // Explore the result
         console.log(result);
-    
+        if(result){
+            setIsBottomSheet(false)
+            setview(true)
+        }
         if (!result.cancelled) {
-          setPickedImagePath(result.uri);
-          console.log(result.uri);
+             setPickedImagePath(result.uri);
+             let base64Img = `data:image/jpg;base64,${result.base64}`;
+            let data = {
+            "file": base64Img,
+            "upload_preset": "iyhf8gx0",
+            }
+          handle(data)
+         
         }
       }
       async  function openCamera  ()  {
         // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    
         if (permissionResult.granted === false) {
-          alert("You've refused to allow this appp to access your camera!");
+          settogglealert("You've refused to allow this appp to access your camera!");
           return;
         }
-    
-        const result = await ImagePicker.launchCameraAsync();
+        const result = await ImagePicker.launchCameraAsync({
+            base64:true,
+            allowsEditing: true,
+            aspect: [4, 3]
+        });
         // Explore the result
         console.log(result);
-    
+        if(result){
+            setIsBottomSheet(false)
+            setview(true)
+
+        }
         if (!result.cancelled) {
           setPickedImagePath(result.uri);
-          console.log(result.uri);
+          let base64Img = `data:image/jpg;base64,${result.base64}`;
+            let data = {
+            "file": base64Img,
+            "upload_preset": "iyhf8gx0",
+            }
+          handle(data)
         }
       }
     // function loginWithGoogleButton() {
@@ -179,34 +237,37 @@ const Signin = ({ navigation }) => {
             </Text>
         )
     }
-
+     
     function continueButton() {
         const First=()=>{
-            if(email.length < 6 && pass.length < 8 && ID.length === 0 && img.length === 0){
-                console.log(email,"sucsses")
-                // setalert("Insert your Info")
-                // settogglealert(true)
-            } else if(email.length < 6 ){
-                // setalert("Not Valid Email")
-                // settogglealert(true)
-            } else if(pass.length < 8 ){
-                // setalert("Not Valid Password It shold contain 8 characters")
-                // settogglealert(true)
-            } else if(ID.length === 0 ){
-                // setalert("Tell Us ID Your-Self ")
-                // settogglealert(true)
-            }  else if(img.length === 0 ){
-                // setalert("Select Picture ")
-                // settogglealert(true)
-            }else{
-                // axios.get("https://ipinfo.io?token=b6ee4628b70b64")
-                // .then(data=> setIp(data.data.ip))
-                // .catch(err=>console.log(err))
-                setchange(false)
-            }
+            // if(email.length < 6 && pass.length < 8 && ID.length === 0 && img.length === 0){
+            //     console.log(email,"sucsses")
+            //     // setalert("Insert your Info")
+            //     // settogglealert(true)
+            // } else if(email.length < 6 ){
+            //     // setalert("Not Valid Email")
+            //     // settogglealert(true)
+            // } else if(pass.length < 8 ){
+            //     // setalert("Not Valid Password It shold contain 8 characters")
+            //     // settogglealert(true)
+            // } else if(ID.length === 0 ){
+            //     // setalert("Tell Us ID Your-Self ")
+            //     // settogglealert(true)
+            // }  else if(pickedImagePath.length === 0 ){
+            //     // setalert("Select Picture")
+            //     // settogglealert(true)
+            // } else if(cordinate.length === 0 ){
+            //     // setalert("Allow The Location")
+            //     // settogglealert(true)
+            // }else{
+            //     // setchange(false)  setchange2(true)
+            // }
             setchange(false)
             setchange2(true)
+           
         }
+   
+      
         return (
             <TouchableOpacity
                 activeOpacity={0.9}
@@ -219,10 +280,9 @@ const Signin = ({ navigation }) => {
         )
     }
 
-    function continueButton2() {
+    function continueButton2() {     
         const Second=()=>{
             // if(address.length < 3 && location.length < 8 && value.length === 0){
-                console.log(email,"sucsses")
                 // setalert("Insert your Info")
                 // settogglealert(true)
             // } else if(address.length < 3 ){
@@ -238,9 +298,7 @@ const Signin = ({ navigation }) => {
                 // setalert("Set Valid Phone")
                 // settogglealert(true)
             // }else{
-                // axios.get("https://ipinfo.io?token=b6ee4628b70b64")
-                // .then(data=> setIp(data.data.ip))
-                // .catch(err=>console.log(err))
+                
                 // setchange(false)
             // }
             setchange2(false)
@@ -260,7 +318,7 @@ const Signin = ({ navigation }) => {
     function continueButton3() {
         const Thierd=()=>{
             // if(address.length < 3 && location.length < 8 && isSelected === false ){
-                console.log(email,"sucsses")
+                // console.log(email,"sucsses")
                 // setalert("Insert your Info")
                 // settogglealert(true)
             // } else if(address.length < 3 ){
@@ -270,16 +328,13 @@ const Signin = ({ navigation }) => {
                 // setalert("Not Valid Location")
                 // settogglealert(true)
             // } else if(!isSelected){
-                
                 // setalert("Select catougery")
                 // settogglealert(true)
             // }else{
-                // axios.get("https://ipinfo.io?token=b6ee4628b70b64")
-                // .then(data=> setIp(data.data.ip))
-                // .catch(err=>console.log(err))
                 // setchange(false)
+                axios.post()
             // }
-            
+            navigation.navigate('BottomTabBar');
         }
         return (
             <TouchableOpacity
@@ -375,20 +430,29 @@ const Signin = ({ navigation }) => {
                         </Text> 
                      :null
                     }
+                    <Text style={{marginTop:-20}}>Picture For Your ID</Text>
                   </View>
-                 
+                  
                 <TouchableOpacity onPress={()=>setIsBottomSheet(true)}>     
                     <View style={styles.profilePhotoWrapStyle}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={{uri:pickedImagePath}}
+                        
+                        <View onPress={()=>setview(true)} style={{ alignItems: 'center', justifyContent: 'center' }}>
+                           
+                          { view?  <Image source={{uri:pickedImagePath}}
                             style={styles.profilePhotoStyle}
                             resizeMode="cover"
-                        />
+                            
+                        />:<Image source={require('../../assets/images/cam.png')}
+                            style={styles.profilePhotoStyle}
+                            resizeMode="cover"
+                            
+                        />}
+                   
                             <TouchableOpacity
                                 activeOpacity={0.9}
                                 style={styles.addPhotoContainerStyle}
                                 >
-                                <Ionicons name="ios-add" size={20} color="white" />
+                                <Ionicons name="ios-add" size={15} color="white" />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -411,7 +475,6 @@ const Signin = ({ navigation }) => {
                                 color='black'
                               />
                             }
-                        secureTextEntry={true}
                     />
                    <Input 
                         onChangeText={ val => {setlocation(val);settogglealert(false)}}
@@ -595,8 +658,16 @@ const Signin = ({ navigation }) => {
                         <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
                             Upload from Gallery
                         </Text>
-                    </View></TouchableOpacity>
-
+                    </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{setIsBottomSheet(false)}}  >
+                    <View  style={{ flexDirection: 'row', marginTop: Sizes.fixPadding * 2.0 }}>
+                        <MaterialIcons name="photo-album" size={20} color="#4C4C4C" />
+                        <Text style={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding }}>
+                           cancel
+                        </Text>
+                    </View>
+                    </TouchableOpacity>
                 </TouchableOpacity>
             </BottomSheet>
         )
@@ -699,11 +770,11 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1.0,
         backgroundColor: '#FF9800',
-        height: 20.0, width: 20.0,
+        height: 16.0, width: 15.0,
         borderRadius: Sizes.fixPadding + 2.0,
         position: 'absolute',
-        bottom: 5.0,
-        right: 5.0,
+        bottom: 2.0,
+        right: 1.0,
     },
    
       container: {

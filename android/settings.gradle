@@ -1,4 +1,4 @@
-rootProject.name = 'RN HealthMeds Delivery Boy App'
+rootProject.name = 'workerApp'
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()

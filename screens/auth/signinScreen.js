@@ -173,7 +173,7 @@ const Signin = ({ navigation }) => {
                 <Icon
                     style={styles.otpFieldsWrapStyle}
                     type= 'font-awesome'
-                    name='envelope'
+                    name='at'
                     size={24}
                     color='black'
                 />
