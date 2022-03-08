@@ -54,10 +54,10 @@ class VerificationScreen extends Component {
         return (
             <View style={styles.resendInfoWrapStyle}>
                 <Text style={{ ...Fonts.grayColor15Medium }}>
-                    Didn't receive OTP Code!
+                    You Forget Your Password
                 </Text>
                 <Text style={{ ...Fonts.blackColor16Medium, marginLeft: Sizes.fixPadding }}>
-                    Resend
+                    Click Here
                 </Text>
             </View>
         )
@@ -169,7 +169,7 @@ class VerificationScreen extends Component {
                     Verification
                 </Text>
                 <Text style={{ ...Fonts.grayColor15Medium, marginTop: Sizes.fixPadding }}>
-                    Enter the OTP code from the phone we just sent you.
+                    Enter Your Password To Be Directed To Home 
                 </Text>
             </View>
         )
