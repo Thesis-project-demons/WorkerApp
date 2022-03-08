@@ -4,18 +4,23 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@material-ui/core": "^5.0.0-beta.5",
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/cli": "^7.0.3",
     "@react-native-community/masked-view": "0.1.10",
     "axios": "^0.26.0",
     "expo": "~42.0.1",
     "expo-font": "~9.2.1",
     "expo-image-picker": "~10.2.2",
+    "expo-location": "~12.1.2",
     "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.8.1",
+    "form-data": "^4.0.0",
     "material-icons": "^1.10.7",
     "pod-install": "^0.1.32",
     "react": "16.13.1",
@@ -24,6 +29,7 @@
     "react-native-animated-spinkit": "^1.5.2",
     "react-native-check-box": "^2.1.7",
     "react-native-dialog": "^8.2.0",
+    "react-native-eject": "^0.1.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-image-crop-picker": "^0.37.3",
@@ -35,7 +41,7 @@
     "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-screens": "~3.4.0",
-    "react-native-svg": "^12.3.0",
+    "react-native-svg": "12.1.1",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-tab-view": "^3.1.1",
     "react-native-unimodules": "0.14.10",
@@ -49,6 +55,6 @@
     "@babel/core": "^7.9.0"
   },
   "private": true,
-  "name": "rn-HealthMedsDeliveryBoy",
+  "name": "workerApp",
   "version": "1.0.0"
 }
