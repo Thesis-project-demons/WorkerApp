@@ -103,7 +103,7 @@ const Orders = ({ navigation }) => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'first', title: 'New' },
-        { key: 'second', title: 'Active' },
+        // { key: 'second', title: 'Active' },
         { key: 'third', title: 'History' },
     ]);
 
@@ -111,8 +111,8 @@ const Orders = ({ navigation }) => {
         switch (route.key) {
             case 'first':
                 return <NewOrders navigation={navigation} />;
-            case 'second':
-                return <ActiveOrders navigation={navigation} />;
+            // case 'second':
+            //     return <ActiveOrders navigation={navigation} />;
             case 'third':
                 return <HistoryOrders navigation={navigation} />;
         }
