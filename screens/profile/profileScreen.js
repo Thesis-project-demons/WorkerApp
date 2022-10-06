@@ -20,19 +20,7 @@ class ProfileScreen extends Component {
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-           let retrieveData = async () => {
-                    try {
-                      const value = await AsyncStorage.getItem('user');
-                      if (value !== null) {
-                        // We have data!!
-                        console.log(value);
-                      }
-                    } catch (error) {
-                      // Error retrieving data
-                      console.log(error)
-                    }
-                  };
-                  retrieveData()
+       
     }
 
     componentWillUnmount() {
