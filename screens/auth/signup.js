@@ -57,7 +57,7 @@ const Signin = ({ navigation }) => {
     
     const [email,setemail] = useState('');
     const [pass,setpass] = useState('');
-    const [img,setimg] = useState({});
+    const [img,setimg] = useState('');
     const [ID,setID] = useState('');
     const [Ip,setIp] = useState('');
     const [alert,setalert] = useState('');
@@ -92,7 +92,6 @@ const Signin = ({ navigation }) => {
             setchange2(false)
             return;
           }
-    
           let location = await Location.getCurrentPositionAsync({});
           setcordinate(location);
         })();
@@ -413,6 +412,7 @@ const Signin = ({ navigation }) => {
                         color='black'
                      />
                     }  
+                    keyboardType="phone-pad"
                    />
 
                   <View  style={{
@@ -448,12 +448,12 @@ const Signin = ({ navigation }) => {
                             
                         />}
                    
-                            <TouchableOpacity
+                            <View
                                 activeOpacity={0.9}
                                 style={styles.addPhotoContainerStyle}
                                 >
                                 <Ionicons name="ios-add" size={15} color="white" />
-                            </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </TouchableOpacity>

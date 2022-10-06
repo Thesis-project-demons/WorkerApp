@@ -10,6 +10,7 @@ import notificationsScreen from "./screens/notifications/notificationsScreen";
 import showMapScreen from "./screens/showMap/showMapScreen";
 import splashScreen from "./screens/splashScreen";
 import signup from './screens/auth/signup'
+// import Forget from './screens/auth/forget' // Forget: Forget,
 const switchNavigator = createSwitchNavigator({
   Loading: LoadingScreen,
   mainFlow: createStackNavigator({
@@ -17,6 +18,7 @@ const switchNavigator = createSwitchNavigator({
     Signin: signinScreen,
     Signup: signup,
     Verification: verificationScreen,
+   
     // BottomTabBar: bottomTabBarScreen,
     BottomTabBar: {
       screen: bottomTabBarScreen,

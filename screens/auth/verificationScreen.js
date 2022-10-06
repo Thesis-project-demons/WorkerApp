@@ -50,18 +50,20 @@ class VerificationScreen extends Component {
         )
     }
 
-    resendInfo() {
-        return (
-            <View style={styles.resendInfoWrapStyle}>
-                <Text style={{ ...Fonts.grayColor15Medium }}>
-                    You Forget Your Password
-                </Text>
-                <Text style={{ ...Fonts.blackColor16Medium, marginLeft: Sizes.fixPadding }}>
-                    Click Here
-                </Text>
-            </View>
-        )
-    }
+    // resendInfo() {
+    //     return (
+    //         <View style={styles.resendInfoWrapStyle}>
+    //             <Text style={{ ...Fonts.grayColor15Medium }}>
+    //                 You Forget Your Password
+    //             </Text>
+    //             <TouchableOpacity onPress={()=>{this.props.navigation.navigate("Forget")}}>
+    //             <Text style={{ ...Fonts.blackColor16Medium, marginLeft: Sizes.fixPadding }}>
+    //                 Click Here
+    //             </Text>
+    //             </TouchableOpacity>
+    //         </View>
+    //     )
+    // }
 
     loading() {
         return (
@@ -111,7 +113,7 @@ class VerificationScreen extends Component {
         const Password=()=>{
             // this.setState({ isLoading: true })
             setTimeout(()=>{
-                axios.post("http://192.168.22.163:5000/mechanic/login/password",{id:this.state.id,password:this.state.password})
+                axios.post("http://192.168.22.195:5000/mechanic/login/password",{id:this.state.id,password:this.state.password})
                 .then((res)=>{
                    console.log(res.data)
                    if(res.data.msg === "Logged in!"){

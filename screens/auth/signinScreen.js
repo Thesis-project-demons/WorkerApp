@@ -115,7 +115,7 @@ const Signin = ({ navigation }) => {
         const Email=()=>{
             if(email.length > 6){
                 console.log(email,"sucsses")
-                axios.post("http://192.168.22.163:5000/mechanic/login/email",{email})
+                axios.post("http://192.168.22.195:5000/mechanic/login/email",{email})
               .then((res)=>{
                 console.log(res.data)
                   if(res.data==="not allowed"){
